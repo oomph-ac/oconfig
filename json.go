@@ -27,7 +27,7 @@ func ParseJSON(file string) (Config, error) {
 		return cfg, err
 	}
 
-	return Config{}, nil
+	return cfg, nil
 }
 
 // CreateJSON creates a new JSON file with default config.
