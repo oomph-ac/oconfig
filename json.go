@@ -40,10 +40,10 @@ func CreateJSON(file string) error {
 
 	// Write default config to file
 	dat, err := json.MarshalIndent(map[string]interface{}{
-		"AuthKey":       DefaultConfig.AuthKey,
-		"Branch":        DefaultConfig.Branch,
-		"LocalAddress":  DefaultConfig.LocalAddress,
-		"RemoteAddress": DefaultConfig.RemoteAddress,
+		"auth_key":    string(DefaultConfig.AuthKey[:]),
+		"branch":      DefaultConfig.Branch,
+		"local_addr":  DefaultConfig.LocalAddress,
+		"remote_addr": DefaultConfig.RemoteAddress,
 	}, "", "	")
 
 	if err != nil {
