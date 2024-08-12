@@ -17,6 +17,8 @@ const (
 	AuthorityNone = "none"
 	AuthoritySemi = "semi-auth"
 	AuthorityFull = "full-auth"
+
+	DefaultShutdownMessage = "<red>Server is restarting.</red>"
 )
 
 type Config struct {
@@ -31,6 +33,8 @@ type Config struct {
 
 	LoggingType string `json:"logging_type"`
 	LogFile     string `json:"log_file"`
+
+	ShutdownMessage string `json:"shutdown_message"`
 
 	Resource ResourceOpts `json:"resource_opts"`
 
@@ -62,6 +66,8 @@ var DefaultConfig = Config{
 
 	LoggingType: LoggingTypePerPlayer,
 	LogFile:     "oomph.log",
+
+	ShutdownMessage: DefaultShutdownMessage,
 
 	Resource: ResourceOpts{
 		ResourceFolder:   "resources/",

@@ -52,6 +52,16 @@ func CreateJSON(file string) error {
 
 // WriteJSON writes a Config struct to a JSON file.
 func WriteJSON(file string, cfg Config) error {
+	switch cfg.Version {
+	case "": // The first version of the config did not have the version field.
+		newCfg := DefaultConfig
+		newCfg.AuthKey = cfg.AuthKey
+		newCfg.Branch = cfg.Branch
+		newCfg.LocalAddress = cfg.LocalAddress
+		newCfg.RemoteAddress = cfg.RemoteAddress
+		cfg = newCfg
+	}
+
 	if cfg.Version != DefaultConfig.Version {
 		cfg.Version = DefaultConfig.Version
 	}
@@ -64,6 +74,5 @@ func WriteJSON(file string, cfg Config) error {
 	if err := os.WriteFile(file, dat, 0644); err != nil {
 		return fmt.Errorf("unable to write config to file: %v", err)
 	}
-
 	return nil
 }
