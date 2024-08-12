@@ -26,6 +26,10 @@ func ParseJSON(file string) (Config, error) {
 	if err := WriteJSON(file, cfg); err != nil {
 		return cfg, fmt.Errorf("unable to re-write config file: %v", err)
 	}
+	// Decode the JSON file again to make sure everything is updated. FFS!!!
+	if err := json.Unmarshal(data, &cfg); err != nil {
+		return cfg, fmt.Errorf("unable to parse config file: %v", err)
+	}
 
 	return cfg, nil
 }
