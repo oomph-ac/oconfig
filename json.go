@@ -18,13 +18,13 @@ func ParseJSON(file string) (Config, error) {
 		return DefaultConfig, fmt.Errorf("config file created - please fill in required fields")
 	}
 
-	var configData map[string]interface{}
-	if err := json.Unmarshal(data, &configData); err != nil {
+	// Decode the JSON file into a Config struct.
+	if err := json.Unmarshal(data, &cfg); err != nil {
 		return cfg, fmt.Errorf("unable to parse config file: %v", err)
 	}
-
-	if err := ValidateJSON(&cfg, configData); err != nil {
-		return cfg, err
+	// We re-write the config file to ensure all fields are present.
+	if err := WriteJSON(file, cfg); err != nil {
+		return cfg, fmt.Errorf("unable to re-write config file: %v", err)
 	}
 
 	return cfg, nil
@@ -38,14 +38,8 @@ func CreateJSON(file string) error {
 		return fmt.Errorf("unable to create config file: %v", err)
 	}
 
-	// Write default config to file
-	dat, err := json.MarshalIndent(map[string]interface{}{
-		"auth_key":    string(DefaultConfig.AuthKey[:]),
-		"branch":      DefaultConfig.Branch,
-		"local_addr":  DefaultConfig.LocalAddress,
-		"remote_addr": DefaultConfig.RemoteAddress,
-	}, "", "	")
-
+	// Write default config to file.
+	dat, err := json.MarshalIndent(DefaultConfig, "", "	")
 	if err != nil {
 		return fmt.Errorf("unable to write default config to file: %v", err)
 	}
@@ -56,30 +50,19 @@ func CreateJSON(file string) error {
 	return nil
 }
 
-// ValidateConfig validates the config data
-func ValidateJSON(cfg *Config, data map[string]interface{}) error {
-	if authKey, ok := data["auth_key"]; ok {
-		copy(cfg.AuthKey[:], []byte(authKey.(string)))
-	} else {
-		return fmt.Errorf("auth_key field is missing from the config")
+// WriteJSON writes a Config struct to a JSON file.
+func WriteJSON(file string, cfg Config) error {
+	if cfg.Version != DefaultConfig.Version {
+		cfg.Version = DefaultConfig.Version
 	}
 
-	if branch, ok := data["branch"]; ok {
-		cfg.Branch = branch.(string)
-	} else {
-		return fmt.Errorf("branch field is missing from the config")
+	dat, err := json.MarshalIndent(cfg, "", "	")
+	if err != nil {
+		return fmt.Errorf("unable to write config to file: %v", err)
 	}
 
-	if localAddress, ok := data["local_addr"]; ok {
-		cfg.LocalAddress = localAddress.(string)
-	} else {
-		return fmt.Errorf("local_addr field is missing from the config")
-	}
-
-	if remoteAddress, ok := data["remote_addr"]; ok {
-		cfg.RemoteAddress = remoteAddress.(string)
-	} else {
-		return fmt.Errorf("remote_addr field is missing from the config")
+	if err := os.WriteFile(file, dat, 0644); err != nil {
+		return fmt.Errorf("unable to write config to file: %v", err)
 	}
 
 	return nil
