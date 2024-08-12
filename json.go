@@ -23,12 +23,11 @@ func ParseJSON(file string) (Config, error) {
 		return cfg, fmt.Errorf("unable to parse config file: %v", err)
 	}
 	// We re-write the config file to ensure all fields are present.
-	if err := WriteJSON(file, cfg); err != nil {
+	if updated, err := WriteJSON(file, cfg); err != nil {
 		return cfg, fmt.Errorf("unable to re-write config file: %v", err)
-	}
-	// Decode the JSON file again to make sure everything is updated. FFS!!!
-	if err := json.Unmarshal(data, &cfg); err != nil {
-		return cfg, fmt.Errorf("unable to parse config file: %v", err)
+	} else if updated {
+		// If the config file was updated, we need to re-parse it to ensure the Config struct is up-to-date.
+		return ParseJSON(file)
 	}
 
 	return cfg, nil
@@ -55,7 +54,9 @@ func CreateJSON(file string) error {
 }
 
 // WriteJSON writes a Config struct to a JSON file.
-func WriteJSON(file string, cfg Config) error {
+func WriteJSON(file string, cfg Config) (bool, error) {
+	var updated bool
+
 	switch cfg.Version {
 	case "": // The first version of the config did not have the version field.
 		newCfg := DefaultConfig
@@ -64,19 +65,16 @@ func WriteJSON(file string, cfg Config) error {
 		newCfg.LocalAddress = cfg.LocalAddress
 		newCfg.RemoteAddress = cfg.RemoteAddress
 		cfg = newCfg
-	}
-
-	if cfg.Version != DefaultConfig.Version {
-		cfg.Version = DefaultConfig.Version
+		updated = true
 	}
 
 	dat, err := json.MarshalIndent(cfg, "", "	")
 	if err != nil {
-		return fmt.Errorf("unable to write config to file: %v", err)
+		return updated, fmt.Errorf("unable to write config to file: %v", err)
 	}
 
 	if err := os.WriteFile(file, dat, 0644); err != nil {
-		return fmt.Errorf("unable to write config to file: %v", err)
+		return updated, fmt.Errorf("unable to write config to file: %v", err)
 	}
-	return nil
+	return updated, nil
 }
