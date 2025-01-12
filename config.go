@@ -21,6 +21,7 @@ type Config struct {
 
 	LocalAddress  string `json:"local_addr"`
 	RemoteAddress string `json:"remote_addr"`
+	SpectrumKey   string `json:"spectrum_key"`
 
 	LoggingType string `json:"logging_type"`
 	LogFile     string `json:"log_file"`
