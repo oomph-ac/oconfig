@@ -1,22 +1,14 @@
 package oconfig
 
 import (
-	"encoding/json"
 	"strings"
 )
 
 const (
-	ConfigVersion = "1.0.0-beta"
+	ConfigVersion = "0.1-beta"
 
 	LoggingTypeGlobal    = "global"
 	LoggingTypePerPlayer = "per_player"
-
-	LatencyReportTypeRaknet = "raknet"
-	LatencyReportTypeStack  = "nsl"
-
-	AuthorityNone = "none"
-	AuthoritySemi = "semi-auth"
-	AuthorityFull = "full-auth"
 
 	DefaultShutdownMessage = "<red>Server is restarting.</red>"
 )
@@ -27,9 +19,8 @@ type Config struct {
 	AuthKey string `json:"auth_key"`
 	Branch  string `json:"branch"`
 
-	LocalAddress   string `json:"local_addr"`
-	RemoteAddress  string `json:"remote_addr"`
-	Authentication bool   `json:"authentication"`
+	LocalAddress  string `json:"local_addr"`
+	RemoteAddress string `json:"remote_addr"`
 
 	LoggingType string `json:"logging_type"`
 	LogFile     string `json:"log_file"`
@@ -38,7 +29,9 @@ type Config struct {
 
 	Resource ResourceOpts `json:"resource_opts"`
 
-	Authority AuthorityOpts `json:"authority_opts"`
+	Movement MovementOpts `json:"movement_opts"`
+
+	Moderators []string `json:"moderators"`
 }
 
 type ResourceOpts struct {
@@ -47,11 +40,8 @@ type ResourceOpts struct {
 	FetchPacksRemote bool   `json:"fetch_packs_remote"`
 }
 
-type AuthorityOpts struct {
-	CombatAuthority     string  `json:"combat_authority"`
-	MovementAuthority   string  `json:"movement_authority"`
+type MovementOpts struct {
 	CorrectionThreshold float64 `json:"correction_threshold"`
-	ClientPredictsSpeed bool    `json:"client_predicts_speed"`
 }
 
 var DefaultConfig = Config{
@@ -60,9 +50,8 @@ var DefaultConfig = Config{
 	AuthKey: strings.Repeat("0", 64),
 	Branch:  "stable",
 
-	LocalAddress:   ":19132",
-	RemoteAddress:  ":20000",
-	Authentication: true,
+	LocalAddress:  ":19132",
+	RemoteAddress: ":20000",
 
 	LoggingType: LoggingTypePerPlayer,
 	LogFile:     "oomph.log",
@@ -75,24 +64,9 @@ var DefaultConfig = Config{
 		FetchPacksRemote: true,
 	},
 
-	Authority: AuthorityOpts{
-		CombatAuthority:   AuthoritySemi,
-		MovementAuthority: AuthoritySemi,
-
-		CorrectionThreshold: 1_000_000.0,
-		ClientPredictsSpeed: false,
+	Movement: MovementOpts{
+		CorrectionThreshold: 0.3,
 	},
-}
 
-var DefaultConfigMap = map[string]interface{}{}
-
-func init() {
-	enc, err := json.Marshal(DefaultConfig)
-	if err != nil {
-		panic(err)
-	}
-
-	if err := json.Unmarshal(enc, &DefaultConfigMap); err != nil {
-		panic(err)
-	}
+	Moderators: []string{},
 }
