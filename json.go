@@ -66,6 +66,11 @@ func WriteJSON(file string, cfg Config) (bool, error) {
 		newCfg.RemoteAddress = cfg.RemoteAddress
 		cfg = newCfg
 		updated = true
+	case "0.1-beta":
+		newCfg := DefaultConfig
+		newCfg.Movement.PersuasionThreshold = 0.001
+		cfg = newCfg
+		updated = true
 	}
 
 	dat, err := json.MarshalIndent(cfg, "", "	")
