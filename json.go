@@ -83,6 +83,11 @@ func WriteJSON(file string, cfg Config) (bool, error) {
 		newCfg.Movement.VelocityAcceptanceThreshold = 0.03
 		cfg = newCfg
 		updated = true
+	case "1.0-beta":
+		newCfg := DefaultConfig
+		newCfg.Network.Transport = NetworkTransportSpectral
+		cfg = newCfg
+		updated = true
 	}
 
 	dat, err := hjson.MarshalWithOptions(cfg, hjson.EncoderOptions{

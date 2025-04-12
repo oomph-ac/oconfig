@@ -1,17 +1,12 @@
 package oconfig
 
 const (
-	ConfigVersion = "1.0-beta"
+	ConfigVersion = "1.01-beta"
 
 	DefaultShutdownMessage = "§cServer is restarting."
 
-	EntityTrackingServer   = "server"
-	EntityTrackingClient   = "client"
-	EntityTrackingTypeBoth = "server-combo-client"
-
-	CombatHandlingMitigationOnly          = "mitigation"
-	CombatHandlingDetectionOnly           = "detection"                // not available if using EntityTrackingServer
-	CombatHandlingMitigationWithDetection = "mitigation-and-detection" // not available if using EntityTrackingServer
+	NetworkTransportSpectral = "spectral"
+	NetworkTransportTCP      = "tcp"
 )
 
 type Config struct {
@@ -29,10 +24,15 @@ type Config struct {
 	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
 	SpectrumKey   string `json:"spectrum_key" comment:"The key used to authenticate with Spectrum on your PocketMine-MP/Dragonfly server."`
 
+	Network  NetworkOpts  `json:"network_opts" comment:"Options for configuring the network connection."`
 	Resource ResourceOpts `json:"resource_opts" comment:"Options for your resource packs."`
 	Movement MovementOpts `json:"movement_opts" comment:"Options for configuring movement policies and strictness for Oomph."`
 	Combat   CombatOpts   `json:"combat_opts" comment:"Options for configuring combat policies and strictness for Oomph."`
 	Mem      MemOpts      `json:"memory_opts" comment:"Memory options to be used by the proxy process."`
+}
+
+type NetworkOpts struct {
+	Transport string `json:"net_transport" comment:"The transport to use for the network connection.\nThe current supported transport layers are: spectral, tcp"`
 }
 
 type ResourceOpts struct {
@@ -120,6 +120,10 @@ var (
 		},
 	}
 )
+
+func Network() NetworkOpts {
+	return Cfg.Network
+}
 
 func Resource() ResourceOpts {
 	return Cfg.Resource
