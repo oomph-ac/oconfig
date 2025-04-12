@@ -95,6 +95,10 @@ var (
 
 		ShutdownMessage: DefaultShutdownMessage,
 
+		Network: NetworkOpts{
+			Transport: NetworkTransportSpectral,
+		},
+
 		Resource: ResourceOpts{
 			ResourceFolder: "resources/",
 			RequirePacks:   true,
