@@ -73,9 +73,6 @@ func WriteJSON(file string, cfg Config) (bool, error) {
 		cfg.Movement.PositionAcceptanceThreshold = 0.09
 		cfg.Movement.VelocityAcceptanceThreshold = 0.03
 		updated = true
-	case "1.0-beta":
-		cfg.Network.Transport = NetworkTransportSpectral
-		updated = true
 	}
 	cfg.Version = ConfigVersion
 

@@ -1,7 +1,7 @@
 package oconfig
 
 const (
-	ConfigVersion = "1.01-beta"
+	ConfigVersion = "1.0-beta"
 
 	DefaultShutdownMessage = "§cServer is restarting."
 
