@@ -68,27 +68,16 @@ func WriteJSON(file string, cfg Config) (bool, error) {
 	var updated bool
 
 	switch cfg.Version {
-	case "": // The first version of the config did not have the version field.
-		newCfg := DefaultConfig
-		newCfg.AuthKey = cfg.AuthKey
-		newCfg.Branch = cfg.Branch
-		newCfg.LocalAddress = cfg.LocalAddress
-		newCfg.RemoteAddress = cfg.RemoteAddress
-		cfg = newCfg
-		updated = true
 	case "0.1-beta":
-		newCfg := DefaultConfig
-		newCfg.Movement.PersuasionThreshold = 0.001
-		newCfg.Movement.PositionAcceptanceThreshold = 0.09
-		newCfg.Movement.VelocityAcceptanceThreshold = 0.03
-		cfg = newCfg
+		cfg.Movement.PersuasionThreshold = 0.001
+		cfg.Movement.PositionAcceptanceThreshold = 0.09
+		cfg.Movement.VelocityAcceptanceThreshold = 0.03
 		updated = true
 	case "1.0-beta":
-		newCfg := DefaultConfig
-		newCfg.Network.Transport = NetworkTransportSpectral
-		cfg = newCfg
+		cfg.Network.Transport = NetworkTransportSpectral
 		updated = true
 	}
+	cfg.Version = ConfigVersion
 
 	dat, err := hjson.MarshalWithOptions(cfg, hjson.EncoderOptions{
 		//BaseIndentation:       "    ",
