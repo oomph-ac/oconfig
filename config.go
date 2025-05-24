@@ -12,7 +12,7 @@ const (
 type Config struct {
 	Version string `json:"version" comment:"DO NOT CHANGE THIS VALUE. This is kept track for upgrading the configuration file if needed."`
 	AuthKey string `json:"auth_key" comment:"Enter your authentication key provided to you here."`
-	Branch  string `json:"branch" comment:"The branch of the Oomph proxy to use. You should be able to find this in the "`
+	Branch  string `json:"branch" comment:"The branch of the Oomph proxy to use."`
 
 	AllowedProtocols []int `json:"allowed_protocols" comment:"A list of protocols allowed to connect to the proxy. You can check which protocol versions are supported on our website."`
 
@@ -23,6 +23,8 @@ type Config struct {
 	RemoteAddress string `json:"remote_addr" comment:"The address the proxy first connects to for the remote server."`
 	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
 	SpectrumKey   string `json:"spectrum_key" comment:"The key used to authenticate with Spectrum on your PocketMine-MP/Dragonfly server."`
+
+	UseDebugCommands bool `json:"allow_debug_commands" comment:"This option signifies wether debug commands should be enabled on the proxy. If this is disabled, then\n any attempt to run Oomph debug commands (!oomph_debug) will not be handled."`
 
 	Network  NetworkOpts  `json:"network_opts" comment:"Options for configuring the network connection."`
 	Resource ResourceOpts `json:"resource_opts" comment:"Options for your resource packs."`
