@@ -1,12 +1,8 @@
 package oconfig
 
 const (
-	ConfigVersion = "1.0-beta"
-
+	ConfigVersion          = "1.1-beta"
 	DefaultShutdownMessage = "§cServer is restarting."
-
-	NetworkTransportSpectral = "spectral"
-	NetworkTransportTCP      = "tcp"
 )
 
 type Config struct {
@@ -16,25 +12,20 @@ type Config struct {
 
 	AllowedProtocols []int `json:"allowed_protocols" comment:"A list of protocols allowed to connect to the proxy. You can check which protocol versions are supported on our website."`
 
-	ReconnectAddr   string `json:"reconnect_addr" comment:"The address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 	ShutdownMessage string `json:"shutdown_message" comment:"The message players are disconnected with when the proxy is shut down and there is no available reconnect address."`
+	ReconnectIP     string `json:"reconnect_ip" comment:"The IP address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
+	ReconnectPort   int    `json:"reconnect_port" comment:"The port players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 
 	LocalAddress  string `json:"local_addr" comment:"The address the proxy listens on for incoming connections. For the most part, just using a colon followed by the port is fine."`
 	RemoteAddress string `json:"remote_addr" comment:"The address the proxy first connects to for the remote server."`
 	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
-	SpectrumKey   string `json:"spectrum_key" comment:"The key used to authenticate with Spectrum on your PocketMine-MP/Dragonfly server."`
 
 	UseDebugCommands bool `json:"allow_debug_commands" comment:"This option signifies wether debug commands should be enabled on the proxy. If this is disabled, then\n any attempt to run Oomph debug commands (!oomph_debug) will not be handled."`
 
-	Network  NetworkOpts  `json:"network_opts" comment:"Options for configuring the network connection."`
 	Resource ResourceOpts `json:"resource_opts" comment:"Options for your resource packs."`
 	Movement MovementOpts `json:"movement_opts" comment:"Options for configuring movement policies and strictness for Oomph."`
 	Combat   CombatOpts   `json:"combat_opts" comment:"Options for configuring combat policies and strictness for Oomph."`
 	Mem      MemOpts      `json:"memory_opts" comment:"Memory options to be used by the proxy process."`
-}
-
-type NetworkOpts struct {
-	Transport string `json:"net_transport" comment:"The transport to use for the network connection.\nThe current supported transport layers are: spectral, tcp"`
 }
 
 type ResourceOpts struct {
@@ -45,19 +36,19 @@ type ResourceOpts struct {
 type MovementOpts struct {
 	// The correction threshold represents the amount of distance in blocks between the client and Oomph's
 	// predicted position is required to trigger a correction.
-	CorrectionThreshold float32 `json:"correction_threshold" comment:"The amount of blocks between the client and Oomph's prediction required to trigger a correction."`
+	CorrectionThreshold float32 `json:"correction_threshold" comment:"The amount of blocks between the client and Oomph's prediction required to trigger a correction. It is recommended to keep this option at around 0.2-0.5 blocks to avoid large noticable corrections."`
 	// PersuasionThreshold is the amount of blocks per tick Oomph should move towards the client position (given
 	// that there are no pending corrections and the player's movement has been valid for a long enough period of time).
-	PersuasionThreshold float32 `json:"persuasion_threshold" comment:"The amount of block per tick Oomph's position moves towards the client's position. Note that the\npersuasion is not applied on the Y-axis."`
+	PersuasionThreshold float32 `json:"persuasion_threshold" comment:"The amount of block per tick Oomph's position moves towards the client's position. Note that the persuasion is not applied on the Y-axis.\nIncreasing this value above the default option will result in slight movement bypasses."`
 	// AcceptClientPosition is a boolean that represents if the Oomph proxy should accept the client's position if
 	// their position is within the opts.PositionAcceptanceThreshold and the player has no pending corrections (
 	// and some other factors, such as immobile, etc.)
 	// By default, this is disabled as it may result in small movement bypasses, but enabling it can help
 	// reduce the amount of false corrections sent to the client.
-	AcceptClientPosition bool `json:"accept_client_position" comment:"Should Oomph accept the client's position completely if it's within the PositionAcceptanceThreshold?\nMay result in small movement bypasses."`
+	AcceptClientPosition bool `json:"accept_client_position" comment:"Should Oomph accept the client's position completely if it's within the PositionAcceptanceThreshold?\nEnabling this option will result in small movement bypasses."`
 	// PositionAcceptanceThreshold (which is only used if AcceptClientPosition is TRUE) is the maximum allowed distance
 	// in blocks required for Oomph to accept the client's position. Note that this persuasion is not applied on the Y-axis.
-	PositionAcceptanceThreshold float32 `json:"position_acception_threshold" comment:"The distance between the client and Oomph's position (in blocks) required for Oomph to accept the client's position."`
+	PositionAcceptanceThreshold float32 `json:"position_acception_threshold" comment:"The distance between the client and Oomph's position (in blocks) required for Oomph to accept the client's position. This option is only applied if AcceptClientPosition is set to true."`
 	// AcceptClientVelocity is a boolean that represents if the Oomph proxy should accept the client's velocity in
 	// PlayerAuthInputPacket if the difference between the client's and server predicted end-frame velocity in blocks is
 	// within the opts.VelocityAcceptanceThreshold and the player has no pending corrections (and some other factors, such
@@ -79,8 +70,8 @@ type CombatOpts struct {
 }
 
 type MemOpts struct {
-	GCPercent    int `json:"gc_percent" comment:"Golang's garbage collection percentage.\nIf set to -1 (the default value), the proxy will only run garbage collection when reaching the memory soft limit."`
-	MemThreshold int `json:"mem_threshold" comment:"A soft-limit for how much memory the Oomph proxy should use in bytes. The default value is 1GB.\nIncrease this as neccessary to reduce garbage collection cycles."`
+	GCPercent    int `json:"gc_percent" comment:"Golang's garbage collection percentage.\nIf set to -1 (the default value), the proxy will only run garbage collection when reaching the memory soft limit. To avoid large amounts of CPU usage, this option has a set minimum value of 100."`
+	MemThreshold int `json:"mem_threshold" comment:"A soft-limit for how much memory the Oomph proxy should use in bytes. The default value is 1GB (1024 * 1024 * 1024 bytes).\nIncrease this as neccessary to reduce garbage collection cycles."`
 }
 
 var (
@@ -96,10 +87,6 @@ var (
 		RemoteAddress: ":20000",
 
 		ShutdownMessage: DefaultShutdownMessage,
-
-		Network: NetworkOpts{
-			Transport: NetworkTransportSpectral,
-		},
 
 		Resource: ResourceOpts{
 			ResourceFolder: "resources/",
@@ -122,14 +109,10 @@ var (
 
 		Mem: MemOpts{
 			GCPercent:    -1,
-			MemThreshold: 1000 * 1000 * 1000,
+			MemThreshold: 1 * 1024 * 1024 * 1024,
 		},
 	}
 )
-
-func Network() NetworkOpts {
-	return Cfg.Network
-}
 
 func Resource() ResourceOpts {
 	return Cfg.Resource
