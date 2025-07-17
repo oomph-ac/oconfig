@@ -64,6 +64,8 @@ type MovementOpts struct {
 type CombatOpts struct {
 	// MaxRewind is the maximum amount of positions Oomph will store for each entity for combat rewind and simulation.
 	MaxRewind int `json:"max_rewind" comment:"The maximum amount of positions Oomph should store for each entity for combat rewind and simulation.\nThis value is capped at 20 ticks (1000ms).\nThis option is not applied if FullAuthoritative is set to false."`
+	// MaximumAttackAngle is the maximum angle in degrees that Oomph will allow for an attack to be considered valid.
+	MaximumAttackAngle float32 `json:"maximum_attack_angle" comment:"The maximum angle in degrees that Oomph will allow for an attack to be considered valid."`
 	// EnableClientEntityTracking is a boolean that indicates if the proxy should also enable it's client-sided entity tracking to perfectly lag compensate for the client view of entities. This is primarily used for
 	// detecting and taking action against reach/killaura. This option is not neccessary for combat rewind to work properly, but should be enabled if you need precise information for herustics or whatnot.
 	EnableClientEntityTracking bool `json:"enable_client_entity_tracking" comment:"This option is used to enable Oomph's client-sided entity tracking to perfectly lag compensate for the client view of entities. If you want to enable reach detections, this should be enabled."`
@@ -104,7 +106,8 @@ var (
 
 		Combat: CombatOpts{
 			MaxRewind:                  6,
-			EnableClientEntityTracking: false,
+			MaximumAttackAngle:         85.0,
+			EnableClientEntityTracking: true,
 		},
 
 		Mem: MemOpts{
