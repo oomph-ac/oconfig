@@ -69,6 +69,9 @@ type CombatOpts struct {
 	// EnableClientEntityTracking is a boolean that indicates if the proxy should also enable it's client-sided entity tracking to perfectly lag compensate for the client view of entities. This is primarily used for
 	// detecting and taking action against reach/killaura. This option is not neccessary for combat rewind to work properly, but should be enabled if you need precise information for herustics or whatnot.
 	EnableClientEntityTracking bool `json:"enable_client_entity_tracking" comment:"This option is used to enable Oomph's client-sided entity tracking to perfectly lag compensate for the client view of entities. If you want to enable reach detections, this should be enabled."`
+	// AllowNonMobileTouch is a boolean indicating if the proxy should allow non-mobile players to use the touch input mode. Although some devices on Windows may allow for the touch input mode,
+	// it can allow for tiny combat gains when specifically being abused.
+	AllowNonMobileTouch bool `json:"allow_non_mobile_touch" comment:"Should Oomph allow non-mobile players to use the touch input mode? It is recommended to keep this option disabled as it may allow for\ntiny combat gains from players spoofing their input mode to touch."`
 }
 
 type MemOpts struct {
