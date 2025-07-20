@@ -1,11 +1,13 @@
 package oconfig
 
 const (
-	ConfigVersion          = "1.1-beta"
-	DefaultShutdownMessage = "§cServer is restarting."
+	ConfigVersion          uint64 = 1
+	DefaultShutdownMessage        = "§cServer is restarting."
 )
 
 type Config struct {
+	Version uint64 `json:"version" comment:"DO NOT EDIT THIS VALUE. This is to help the API notify you when there is a new authenticator update, which usually happens\nwhen there is a configuration update required."`
+
 	AuthKey string `json:"auth_key" comment:"Enter your authentication key provided to you here."`
 	Branch  string `json:"branch" comment:"The branch of the Oomph proxy to use."`
 
@@ -83,6 +85,8 @@ var (
 	Cfg Config
 
 	DefaultConfig = Config{
+		Version: ConfigVersion,
+
 		AuthKey: "your_auth_key_here",
 		Branch:  "stable",
 

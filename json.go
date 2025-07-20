@@ -9,7 +9,7 @@ import (
 
 // ParseJSON parses a JSON file and returns a Config struct.
 func ParseJSON(file string) error {
-	var parsedCfg Config
+	var parsedCfg Config = DefaultConfig
 	data, err := os.ReadFile(file)
 	if err != nil {
 		if err = CreateJSON(file); err != nil {
