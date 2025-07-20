@@ -6,11 +6,8 @@ const (
 )
 
 type Config struct {
-	Version string `json:"version" comment:"DO NOT CHANGE THIS VALUE. This is kept track for upgrading the configuration file if needed."`
 	AuthKey string `json:"auth_key" comment:"Enter your authentication key provided to you here."`
 	Branch  string `json:"branch" comment:"The branch of the Oomph proxy to use."`
-
-	AllowedProtocols []int `json:"allowed_protocols" comment:"A list of protocols allowed to connect to the proxy. You can check which protocol versions are supported on our website."`
 
 	ShutdownMessage string `json:"shutdown_message" comment:"The message players are disconnected with when the proxy is shut down and there is no available reconnect address."`
 	ReconnectIP     string `json:"reconnect_ip" comment:"The IP address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
@@ -72,19 +69,20 @@ type CombatOpts struct {
 	// AllowNonMobileTouch is a boolean indicating if the proxy should allow non-mobile players to use the touch input mode. Although some devices on Windows may allow for the touch input mode,
 	// it can allow for tiny combat gains when specifically being abused.
 	AllowNonMobileTouch bool `json:"allow_non_mobile_touch" comment:"Should Oomph allow non-mobile players to use the touch input mode? It is recommended to keep this option disabled as it may allow for\ntiny combat gains from players spoofing their input mode to touch."`
+	// AllowSwitchInputMode is a boolean indicating if the proxy should allow players to switch their input mode, or if it should enforce one input mode to be used unless the player re-joins the server. This can primarily
+	// be used to prevent players from using exploits that switch the input mode to touch only when enabled to obtain a combat advantage. This option is recommended to be set to false.
+	AllowSwitchInputMode bool `json:"allow_switch_input_mode" comment:"Should Oomph allow players to switch their input mode?\nIt is recommended to keep this option disabled as it may allow for tiny combat gains from players switching their input mode to touch."`
 }
 
 type MemOpts struct {
-	GCPercent    int `json:"gc_percent" comment:"Golang's garbage collection percentage.\nIf set to -1 (the default value), the proxy will only run garbage collection when reaching the memory soft limit. To avoid large amounts of CPU usage, this option has a set minimum value of 100."`
-	MemThreshold int `json:"mem_threshold" comment:"A soft-limit for how much memory the Oomph proxy should use in bytes. The default value is 1GB (1024 * 1024 * 1024 bytes).\nIncrease this as neccessary to reduce garbage collection cycles."`
+	GCPercent    int `json:"gc_percent" comment:"Golang's garbage collection percentage. If set to -1 (the default value), the proxy will only run garbage collection when reaching the memory soft limit.\nWe recommend NOT changing this value unless you know what you're doing."`
+	MemThreshold int `json:"mem_threshold" comment:"A soft-limit for how much memory the Oomph proxy should use in megabytes. The default value is 1GB (1024MB).\nIf you are running Oomph on a container, we recommend setting this to roughly ~500MB lower to avoid OOM errors.\nIncrease this as neccessary to reduce garbage collection cycles."`
 }
 
 var (
 	Cfg Config
 
 	DefaultConfig = Config{
-		Version: ConfigVersion,
-
 		AuthKey: "your_auth_key_here",
 		Branch:  "stable",
 

@@ -23,14 +23,6 @@ func ParseJSON(file string) error {
 	if err := hjson.Unmarshal(data, &parsedCfg); err != nil {
 		return fmt.Errorf("unable to parse config file: %v", err)
 	}
-	// We re-write the config file to ensure all fields are present.
-	if updated, err := WriteJSON(file, parsedCfg); err != nil {
-		return fmt.Errorf("unable to re-write config file: %v", err)
-	} else if updated {
-		// If the config file was updated, we need to re-parse it to ensure the Config struct is up-to-date.
-		return ParseJSON(file)
-	}
-
 	Cfg = parsedCfg
 	return nil
 }
@@ -45,7 +37,6 @@ func CreateJSON(file string) error {
 
 	// Write default config to file.
 	dat, err := hjson.MarshalWithOptions(DefaultConfig, hjson.EncoderOptions{
-		//BaseIndentation:       "    ",
 		IndentBy:              "    ",
 		EmitRootBraces:        true,
 		QuoteAlways:           false,
@@ -61,36 +52,4 @@ func CreateJSON(file string) error {
 		return fmt.Errorf("unable to write default config to file: %v", err)
 	}
 	return nil
-}
-
-// WriteJSON writes a Config struct to a JSON file.
-func WriteJSON(file string, cfg Config) (bool, error) {
-	var updated bool
-
-	switch cfg.Version {
-	case "0.1-beta":
-		cfg.Movement.PersuasionThreshold = 0.001
-		cfg.Movement.PositionAcceptanceThreshold = 0.09
-		cfg.Movement.VelocityAcceptanceThreshold = 0.03
-		updated = true
-	}
-	cfg.Version = ConfigVersion
-
-	dat, err := hjson.MarshalWithOptions(cfg, hjson.EncoderOptions{
-		//BaseIndentation:       "    ",
-		IndentBy:              "    ",
-		EmitRootBraces:        true,
-		QuoteAlways:           false,
-		QuoteAmbiguousStrings: false,
-		Eol:                   "\n",
-		Comments:              true,
-	})
-	if err != nil {
-		return updated, fmt.Errorf("unable to write config to file: %v", err)
-	}
-
-	if err := os.WriteFile(file, dat, 0644); err != nil {
-		return updated, fmt.Errorf("unable to write config to file: %v", err)
-	}
-	return updated, nil
 }
