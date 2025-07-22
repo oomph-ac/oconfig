@@ -6,15 +6,13 @@ const (
 )
 
 type Config struct {
-	Version uint64 `json:"version" comment:"DO NOT EDIT THIS VALUE. This is to help the API notify you when there is a new authenticator update, which usually happens\nwhen there is a configuration update required."`
+	LocalAddress  string `json:"local_addr" comment:"The address the proxy listens on for incoming connections. For the most part, just using a colon followed by the port is fine."`
+	RemoteAddress string `json:"remote_addr" comment:"The address the proxy first connects to for the remote server."`
+	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
 
 	ShutdownMessage string `json:"shutdown_message" comment:"The message players are disconnected with when the proxy is shut down and there is no available reconnect address."`
 	ReconnectIP     string `json:"reconnect_ip" comment:"The IP address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 	ReconnectPort   int    `json:"reconnect_port" comment:"The port players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
-
-	LocalAddress  string `json:"local_addr" comment:"The address the proxy listens on for incoming connections. For the most part, just using a colon followed by the port is fine."`
-	RemoteAddress string `json:"remote_addr" comment:"The address the proxy first connects to for the remote server."`
-	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
 
 	UseDebugCommands bool `json:"allow_debug_commands" comment:"This option signifies wether debug commands should be enabled on the proxy. If this is disabled, then\n any attempt to run Oomph debug commands (!oomph_debug) will not be handled."`
 
@@ -82,8 +80,6 @@ var (
 	Cfg Config
 
 	DefaultConfig = Config{
-		Version: ConfigVersion,
-
 		LocalAddress:  ":19132",
 		RemoteAddress: ":20000",
 
