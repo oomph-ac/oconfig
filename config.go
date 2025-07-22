@@ -8,9 +8,6 @@ const (
 type Config struct {
 	Version uint64 `json:"version" comment:"DO NOT EDIT THIS VALUE. This is to help the API notify you when there is a new authenticator update, which usually happens\nwhen there is a configuration update required."`
 
-	AuthKey string `json:"auth_key" comment:"Enter your authentication key provided to you here."`
-	Branch  string `json:"branch" comment:"The branch of the Oomph proxy to use."`
-
 	ShutdownMessage string `json:"shutdown_message" comment:"The message players are disconnected with when the proxy is shut down and there is no available reconnect address."`
 	ReconnectIP     string `json:"reconnect_ip" comment:"The IP address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 	ReconnectPort   int    `json:"reconnect_port" comment:"The port players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
@@ -86,9 +83,6 @@ var (
 
 	DefaultConfig = Config{
 		Version: ConfigVersion,
-
-		AuthKey: "your_auth_key_here",
-		Branch:  "stable",
 
 		LocalAddress:  ":19132",
 		RemoteAddress: ":20000",
