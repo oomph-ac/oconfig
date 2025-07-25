@@ -31,8 +31,8 @@ type MovementOpts struct {
 	// The correction threshold represents the amount of distance in blocks between the client and Oomph's
 	// predicted position is required to trigger a correction.
 	CorrectionThreshold float32 `json:"correction_threshold" comment:"The amount of blocks between the client and Oomph's prediction required to trigger a correction. It is recommended to keep this option at around 0.2-0.5 blocks to avoid large noticable corrections."`
-	// PersuasionThreshold is the amount of blocks per tick Oomph should move towards the client position (given
-	// that there are no pending corrections and the player's movement has been valid for a long enough period of time).
+	// PersuasionThreshold is the amount of blocks per tick Oomph should move towards the client position (given that there are no pending corrections and the player's movement has been valid for a long enough period of time).
+	// Note that this persuasion is not applied on the Y-axis.
 	PersuasionThreshold float32 `json:"persuasion_threshold" comment:"The amount of block per tick Oomph's position moves towards the client's position. Note that the persuasion is not applied on the Y-axis.\nIncreasing this value above the default option will result in slight movement bypasses."`
 	// AcceptClientPosition is a boolean that represents if the Oomph proxy should accept the client's position if
 	// their position is within the opts.PositionAcceptanceThreshold and the player has no pending corrections (
@@ -40,8 +40,7 @@ type MovementOpts struct {
 	// By default, this is disabled as it may result in small movement bypasses, but enabling it can help
 	// reduce the amount of false corrections sent to the client.
 	AcceptClientPosition bool `json:"accept_client_position" comment:"Should Oomph accept the client's position completely if it's within the PositionAcceptanceThreshold?\nEnabling this option will result in small movement bypasses."`
-	// PositionAcceptanceThreshold (which is only used if AcceptClientPosition is TRUE) is the maximum allowed distance
-	// in blocks required for Oomph to accept the client's position. Note that this persuasion is not applied on the Y-axis.
+	// PositionAcceptanceThreshold (which is only used if AcceptClientPosition is TRUE) is the maximum allowed distance in blocks required for Oomph to accept the client's position.
 	PositionAcceptanceThreshold float32 `json:"position_acception_threshold" comment:"The distance between the client and Oomph's position (in blocks) required for Oomph to accept the client's position. This option is only applied if AcceptClientPosition is set to true."`
 	// AcceptClientVelocity is a boolean that represents if the Oomph proxy should accept the client's velocity in
 	// PlayerAuthInputPacket if the difference between the client's and server predicted end-frame velocity in blocks is
