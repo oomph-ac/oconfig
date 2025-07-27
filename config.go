@@ -6,6 +6,8 @@ const (
 )
 
 type Config struct {
+	SpectrumAPIToken string `json:"spectrum_api_token" comment:"The Spectrum API token used to authenticate with a Spectrum API instance.\nIf you do not know what this is - don't set anything here."`
+
 	LocalAddress  string `json:"local_addr" comment:"The address the proxy listens on for incoming connections. For the most part, just using a colon followed by the port is fine."`
 	RemoteAddress string `json:"remote_addr" comment:"The address the proxy first connects to for the remote server."`
 	BackupAddress string `json:"backup_addr" comment:"The address the proxy will connect to if the inital connection fails to the remote address."`
@@ -79,6 +81,8 @@ var (
 	Cfg Config
 
 	DefaultConfig = Config{
+		SpectrumAPIToken: "api_token_here",
+
 		LocalAddress:  ":19132",
 		RemoteAddress: ":20000",
 
