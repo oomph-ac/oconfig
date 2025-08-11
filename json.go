@@ -23,6 +23,14 @@ func ParseJSON(file string) error {
 	if err := hjson.Unmarshal(data, &parsedCfg); err != nil {
 		return fmt.Errorf("unable to parse config file: %v", err)
 	}
+	if parsedCfg.Version != ConfigVersion {
+		err = WriteJSON(file, DefaultConfig)
+		if err != nil {
+			return fmt.Errorf("unable to update config file: %v", err)
+		}
+		return fmt.Errorf("config file updated - please fill in required fields")
+	}
+
 	Cfg = parsedCfg
 	return nil
 }
@@ -50,6 +58,25 @@ func CreateJSON(file string) error {
 
 	if err := os.WriteFile(file, dat, 0644); err != nil {
 		return fmt.Errorf("unable to write default config to file: %v", err)
+	}
+	return nil
+}
+
+func WriteJSON(file string, cfg Config) error {
+	dat, err := hjson.MarshalWithOptions(cfg, hjson.EncoderOptions{
+		IndentBy:              "    ",
+		EmitRootBraces:        true,
+		QuoteAlways:           false,
+		QuoteAmbiguousStrings: false,
+		Eol:                   "\n",
+		Comments:              true,
+	})
+	if err != nil {
+		return fmt.Errorf("unable to write config to file: %v", err)
+	}
+
+	if err := os.WriteFile(file, dat, 0644); err != nil {
+		return fmt.Errorf("unable to write config to file: %v", err)
 	}
 	return nil
 }

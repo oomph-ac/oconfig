@@ -6,6 +6,7 @@ const (
 )
 
 type Config struct {
+	Version          uint64 `json:"version" comment:"The version of the config file. This is used to ensure that the config file is compatible with the current version of Oomph.\nDO NOT MODIFY THIS VALUE."`
 	SpectrumAPIToken string `json:"spectrum_api_token" comment:"The Spectrum API token used to authenticate with a Spectrum API instance.\nIf you do not know what this is - don't set anything here."`
 
 	LocalAddress  string `json:"local_addr" comment:"The address the proxy listens on for incoming connections. For the most part, just using a colon followed by the port is fine."`
@@ -81,6 +82,7 @@ var (
 	Cfg Config
 
 	DefaultConfig = Config{
+		Version:          ConfigVersion,
 		SpectrumAPIToken: "api_token_here",
 
 		LocalAddress:  ":19132",
