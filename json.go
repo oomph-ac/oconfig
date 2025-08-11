@@ -31,7 +31,7 @@ func ParseJSON(file string) error {
 		return fmt.Errorf("config file updated - please fill in required fields")
 	}
 
-	Cfg = parsedCfg
+	Global = parsedCfg
 	return nil
 }
 
