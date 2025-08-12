@@ -34,7 +34,7 @@ type Config struct {
 var (
 	Global        Config
 	DefaultConfig = Config{
-		Prefix:           "§l§do§eo§bm§ep§dh§7§r »",
+		Prefix:           "§l§6o§eo§bm§ep§6h§7§r »",
 		Version:          ConfigVersion,
 		SpectrumAPIToken: "spectrum_api_token_here",
 
@@ -69,72 +69,72 @@ var (
 		Detections: map[string]Detection{
 			"Aim_A": {
 				MaxVl:      5.0,
-				FlagMsg:    "{prefix} §e{player} §drotated suspiciously §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §6rotated suspiciously §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeKick,
 			},
 			"BadPacket_A": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dsent an invalid packet",
+				FlagMsg:    "{prefix} §e{player} §6sent an invalid packet",
 				Punishment: PunishmentTypeBan,
 			},
 			"BadPacket_B": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dtried to attack themselves",
+				FlagMsg:    "{prefix} §e{player} §6tried to attack themselves",
 				Punishment: PunishmentTypeBan,
 			},
 			"BadPacket_C": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dtried to break blocks with an invalid packet",
+				FlagMsg:    "{prefix} §e{player} §6tried to break blocks with an invalid packet",
 				Punishment: PunishmentTypeBan,
 			},
 			"EditionFaker_A": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dattempted to spoof their device information",
+				FlagMsg:    "{prefix} §e{player} §6attempted to spoof their device information",
 				Punishment: PunishmentTypeBan,
 			},
 			"EditionFaker_B": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dattempted to spoof their device information",
+				FlagMsg:    "{prefix} §e{player} §6attempted to spoof their device information",
 				Punishment: PunishmentTypeBan,
 			},
 			"EditionFaker_C": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dattempted to spoof their device information",
+				FlagMsg:    "{prefix} §e{player} §6attempted to spoof their device information",
 				Punishment: PunishmentTypeBan,
 			},
 			"Hitbox_A": {
 				MaxVl:      20.0,
-				FlagMsg:    "{prefix} §e{player} §dis using Hitbox §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §7| §6Hitbox §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 			"InvMove_A": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dis moving while managing items",
+				FlagMsg:    "{prefix} §e{player} §6moving whilst in inventory",
 				Punishment: PunishmentTypeBan,
 			},
 			"Killaura_A": {
 				MaxVl:      5.0,
-				FlagMsg:    "{prefix} §e{player} §dis using Killaura §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §6Killaura §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 			"Nuker_A": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dtried to break blocks using an invalid packet §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §6tried to break blocks using an invalid packet §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 			"Reach_A": {
 				MaxVl:      10.0,
-				FlagMsg:    "{prefix} §e{player} §dis using Reach §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §7| §6Reach §8(Raycast) §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 			"Reach_B": {
 				MaxVl:      30.0,
-				FlagMsg:    "{prefix} §e{player} §dis using Reach §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §7| §6Reach §8(Raw) §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 			"Scaffold_A": {
 				MaxVl:      1.0,
-				FlagMsg:    "{prefix} §e{player} §dsent invalid action to place blocks §7[§cx{violations}§7]",
+				FlagMsg:    "{prefix} §e{player} §6sent invalid action to place blocks §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
 		},
