@@ -24,11 +24,22 @@ func ParseJSON(file string) error {
 		return fmt.Errorf("unable to parse config file: %v", err)
 	}
 	if parsedCfg.Version != ConfigVersion {
-		err = WriteJSON(file, DefaultConfig)
+		newCfg := parsedCfg
+		switch parsedCfg.Version {
+		case 0: // No version set.
+			newCfg.Prefix = DefaultConfig.Prefix
+			newCfg.GCPercent = DefaultConfig.GCPercent
+			newCfg.MemThreshold = DefaultConfig.MemThreshold
+			newCfg.Detections = DefaultConfig.Detections
+		}
+		newCfg.Version = ConfigVersion
+		err = WriteJSON(file, newCfg)
 		if err != nil {
 			return fmt.Errorf("unable to update config file: %v", err)
 		}
 		return fmt.Errorf("config file updated - please fill in required fields")
+	} else if err = WriteJSON(file, parsedCfg); err != nil {
+		return fmt.Errorf("unable to re-write config file: %v", err)
 	}
 
 	Global = parsedCfg
