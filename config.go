@@ -21,8 +21,7 @@ type Config struct {
 	ReconnectIP     string `json:"reconnect_ip" comment:"The IP address players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 	ReconnectPort   int    `json:"reconnect_port" comment:"The port players connected to the proxy are transferred to in the event of a shutdown.\nIf this option is empty, players will be disconnected instead."`
 
-	UseLegacyEvents  bool `json:"use_legacy_events" comment:"This option signifies wether the proxy should use the legacy event system to allow the remote server to handle punishments/flags.\nThis option is recommended to be set to false as the system will be removed in the future."`
-	UseDebugCommands bool `json:"allow_debug_commands" comment:"This option signifies wether debug commands should be enabled on the proxy. If this is disabled, then\n any attempt to run Oomph debug commands (!oomph_debug) will not be handled."`
+	UseLegacyEvents bool `json:"use_legacy_events" comment:"This option signifies wether the proxy should use the legacy event system to allow the remote server to handle punishments/flags.\nThis option is recommended to be set to false as the system will be removed in the future."`
 
 	Resource ResourceOpts `json:"resource_opts" comment:"Options for your resource packs."`
 	Movement MovementOpts `json:"movement_opts" comment:"Options for configuring movement policies and strictness for Oomph."`
