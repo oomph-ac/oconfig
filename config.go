@@ -9,8 +9,9 @@ type Config struct {
 	Version          uint64 `json:"version" comment:"The version of the config file. This is used to ensure that the config file is compatible with the current version of Oomph.\nDO NOT MODIFY THIS VALUE."`
 	SpectrumAPIToken string `json:"spectrum_api_token" comment:"The Spectrum API token used to authenticate with a Spectrum API instance.\nIf you do not know what this is - don't set anything here."`
 
-	Prefix      string `json:"prefix" comment:"The prefix to be used for Oomph."`
-	CommandName string `json:"command_name" comment:"The name of the command used access anti-cheat commands on the proxy. The default is 'ac' which will make the anti-cheat command '/ac'."`
+	Prefix             string `json:"prefix" comment:"The prefix to be used for Oomph."`
+	CommandName        string `json:"command_name" comment:"The name of the command used access anti-cheat commands on the proxy. The default is 'ac' which will make the anti-cheat command '/ac'."`
+	CommandDescription string `json:"command_description" comment:"The description of the command used access anti-cheat commands on the proxy."`
 
 	GCPercent    int `json:"gc_percent" comment:"Golang's garbage collection percentage. If set to -1 (the default value), the proxy will only run garbage collection when reaching the memory soft limit.\nWe recommend NOT changing this value unless you know what you're doing."`
 	MemThreshold int `json:"mem_threshold" comment:"A soft-limit for how much memory the Oomph proxy should use in megabytes. The default value is 1GB (1024MB).\nIf you are running Oomph on a container, we recommend setting this to roughly ~500MB lower to avoid OOM errors.\nIncrease this as neccessary to reduce garbage collection cycles."`
@@ -38,8 +39,10 @@ var (
 		Version:          ConfigVersion,
 		SpectrumAPIToken: "spectrum_api_token_here",
 
-		Prefix:      "§l§6o§eo§bm§ep§6h§7§r »",
-		CommandName: "ac",
+		Prefix: "§l§6o§eo§bm§ep§6h§7§r »",
+
+		CommandName:        "ac",
+		CommandDescription: "The command for anti-cheat functionality.",
 
 		GCPercent:    -1,
 		MemThreshold: 1024,
