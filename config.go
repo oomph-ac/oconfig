@@ -143,6 +143,11 @@ var (
 				FlagMsg:    "{prefix} §e{player} §6sent invalid action to place blocks §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
+			"Scaffold_B": {
+				MaxVl:      25.0,
+				FlagMsg:    "{prefix} §e{player} §6is placing with an invalid direction §7[§cx{violations}§7]",
+				Punishment: PunishmentTypeBan,
+			},
 
 			// Cloud detections - max violations are ignored by default and is managed by the cloud instance itself.
 			"Cloud_Scaffold": {
