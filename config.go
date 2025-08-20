@@ -106,6 +106,21 @@ var (
 				FlagMsg:    "{prefix} §e{player} §6tried to break blocks with an invalid packet",
 				Punishment: PunishmentTypeBan,
 			},
+			"BadPacket_D": {
+				MaxVl:      1.0,
+				FlagMsg:    "{prefix} §e{player} §6executed creative action in survival",
+				Punishment: PunishmentTypeBan,
+			},
+			"BadPacket_E": {
+				MaxVl:      1.0,
+				FlagMsg:    "{prefix} §e{player} §6sent an invalid movement",
+				Punishment: PunishmentTypeBan,
+			},
+			"BadPacket_F": {
+				MaxVl:      1.0,
+				FlagMsg:    "{prefix} §e{player} §6sent an invalid inventory action",
+				Punishment: PunishmentTypeBan,
+			},
 			"EditionFaker_A": {
 				MaxVl:      1.0,
 				FlagMsg:    "{prefix} §e{player} §6attempted to spoof their device information",
