@@ -1,6 +1,16 @@
 package oconfig
 
 type CombatOpts struct {
+	// LeftCPSLimit is the maximum amount of clicks per second that Oomph will allow for the left click.
+	LeftCPSLimit int64 `json:"left_cps_limit" comment:"The maximum amount of CPS that Oomph will allow for the left click."`
+	// RightCPSLimit is the maximum amount of clicks per second that Oomph will allow for the right click (for placing blocks).
+	RightCPSLimit int64 `json:"right_cps_limit" comment:"The maximum amount of CPS that Oomph will allow for the right click."`
+
+	// LeftCPSLimitMobile is the maximum amount of clicks per second that Oomph will allow for the "left click" on mobile devices.
+	LeftCPSLimitMobile int64 `json:"left_cps_limit_mobile" comment:"The maximum amount of CPS that Oomph will allow for the left click on mobile devices."`
+	// RightCPSLimitMobile is the maximum amount of clicks per second that Oomph will allow for the "right click" on mobile devices.
+	RightCPSLimitMobile int64 `json:"right_cps_limit_mobile" comment:"The maximum amount of CPS that Oomph will allow for the right click on mobile devices."`
+
 	// MaxRewind is the maximum amount of positions Oomph will store for each entity for combat rewind and simulation.
 	MaxRewind int `json:"max_rewind" comment:"The maximum amount of positions Oomph should store for each entity for combat rewind and simulation.\nThis value is capped at 20 ticks (1000ms).\nThis option is not applied if FullAuthoritative is set to false."`
 	// MaximumAttackAngle is the maximum angle in degrees that Oomph will allow for an attack to be considered valid.

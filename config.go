@@ -67,12 +67,25 @@ var (
 		},
 
 		Combat: CombatOpts{
+			LeftCPSLimit:  20,
+			RightCPSLimit: 20,
+
+			LeftCPSLimitMobile:  16,
+			RightCPSLimitMobile: 15,
+
 			MaxRewind:                  6,
 			MaximumAttackAngle:         85.0,
 			EnableClientEntityTracking: true,
+			AllowNonMobileTouch:        false,
+			AllowSwitchInputMode:       false,
 		},
 
 		Detections: map[string]Detection{
+			"Autoclicker_A": {
+				MaxVl:      25.0,
+				FlagMsg:    "{prefix} §e{player} §6is clicking too quickly §7[§cx{violations}§7]",
+				Punishment: PunishmentTypeKick,
+			},
 			"Aim_A": {
 				MaxVl:      5.0,
 				FlagMsg:    "{prefix} §e{player} §6rotated suspiciously §7[§cx{violations}§7]",
