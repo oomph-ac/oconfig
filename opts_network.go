@@ -1,6 +1,8 @@
 package oconfig
 
 type NetworkOpts struct {
+	UpgradeChunksToBlobs bool `json:"upgrade_chunks_to_blobs" comment:"If enabled, Oomph will automatically upgrade chunks sent by the server to use the Minecraft sub-chunk caching system.\nThis system allows for your players to use less bandwidth and a slight increase in FPS. It is recommended to keep this option enabled."`
+
 	GlobalMovementCutoffThreshold int `json:"global_movement_cutoff_threshold" comment:"The maximum amount of latency deviation in ticks Oomph will allow for before applying certain updates instantly without lag compensation.\nSet to -1 to disable."`
 	MaxACKTimeout                 int `json:"max_ack_timeout" comment:"The maximum amount of seconds Oomph will allow for no ACKs to be received before disconnecting the player.\nValid values are between 10 and 120 seconds."`
 	MaxEntityRewind               int `json:"max_entity_rewind" comment:"The maximum amount of ticked positions Oomph should store for each entity for combat rewind and simulation.\nThis value is capped at 20 ticks (1000ms).\nThis option is not applied if Combat.FullAuthoritative is set to false. Set to -1 to disable."`
