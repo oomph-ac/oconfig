@@ -1,0 +1,13 @@
+package oconfig
+
+type NetworkOpts struct {
+	GlobalMovementCutoffThreshold int `json:"global_movement_cutoff_threshold" comment:"The maximum amount of latency deviation in ticks Oomph will allow for before applying certain updates instantly without lag compensation.\nSet to -1 to disable."`
+	MaxACKTimeout                 int `json:"max_ack_timeout" comment:"The maximum amount of seconds Oomph will allow for no ACKs to be received before disconnecting the player.\nValid values are between 10 and 120 seconds."`
+	MaxEntityRewind               int `json:"max_entity_rewind" comment:"The maximum amount of ticked positions Oomph should store for each entity for combat rewind and simulation.\nThis value is capped at 20 ticks (1000ms).\nThis option is not applied if Combat.FullAuthoritative is set to false. Set to -1 to disable."`
+	MaxKnockbackDelay             int `json:"max_kb_delay" comment:"The maximum amount of player movements Oomph will accept before applying knockback forcefully.\nSet to -1 to disable."`
+	MaxBlockUpdateDelay           int `json:"max_block_update_delay" comment:"The maximum amount of player movements Oomph will allow the client's world state to be out of sync with the server until\nforcing a block update.\nSet to -1 to disable."`
+}
+
+func Network() NetworkOpts {
+	return Global.Network
+}

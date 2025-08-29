@@ -1,7 +1,7 @@
 package oconfig
 
 const (
-	ConfigVersion          uint64 = 2
+	ConfigVersion          uint64 = 3
 	DefaultShutdownMessage        = "§cServer is restarting."
 )
 
@@ -27,6 +27,7 @@ type Config struct {
 	UseLegacyEvents bool `json:"use_legacy_events" comment:"This option signifies wether the proxy should use the legacy event system to allow the remote server to handle punishments/flags.\nThis option is recommended to be set to false as the system will be removed in the future."`
 
 	Resource ResourceOpts `json:"resource_opts" comment:"Options for your resource packs."`
+	Network  NetworkOpts  `json:"network_opts" comment:"Options for configuring the network settings for Oomph."`
 	Movement MovementOpts `json:"movement_opts" comment:"Options for configuring movement policies and strictness for Oomph."`
 	Combat   CombatOpts   `json:"combat_opts" comment:"Options for configuring combat policies and strictness for Oomph."`
 
@@ -57,6 +58,14 @@ var (
 			RequirePacks:   true,
 		},
 
+		Network: NetworkOpts{
+			GlobalMovementCutoffThreshold: -1,
+			MaxACKTimeout:                 60,
+			MaxEntityRewind:               6,
+			MaxKnockbackDelay:             10,
+			MaxBlockUpdateDelay:           10,
+		},
+
 		Movement: MovementOpts{
 			CorrectionThreshold:         0.3,
 			PersuasionThreshold:         0.002,
@@ -73,7 +82,6 @@ var (
 			LeftCPSLimitMobile:  16,
 			RightCPSLimitMobile: 15,
 
-			MaxRewind:                  6,
 			MaximumAttackAngle:         85.0,
 			EnableClientEntityTracking: true,
 			AllowNonMobileTouch:        false,

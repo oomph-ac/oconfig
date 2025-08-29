@@ -31,6 +31,8 @@ func ParseJSON(file string) error {
 			newCfg.GCPercent = DefaultConfig.GCPercent
 			newCfg.MemThreshold = DefaultConfig.MemThreshold
 			newCfg.Detections = DefaultConfig.Detections
+		case 2:
+			newCfg.Network = DefaultConfig.Network
 		}
 		newCfg.Version = ConfigVersion
 		err = WriteJSON(file, newCfg)
