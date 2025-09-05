@@ -1,6 +1,7 @@
 package oconfig
 
 type NetworkOpts struct {
+	AttemptFixChunks     bool `json:"attempt_fix_chunks" comment:"If enabled, Oomph will attempt to fix chunks sent by the server to prevent invisible blocks on the client-side.\nIt is recommended to only enable this option when experiencing issues with invisible blocks, as it will cause the proxy to re-encode chunk packets sent by the server."`
 	UpgradeChunksToBlobs bool `json:"upgrade_chunks_to_blobs" comment:"If enabled, Oomph will automatically upgrade chunks sent by the server to use the Minecraft sub-chunk caching system.\nThis system allows for your players to use less bandwidth and a slight increase in FPS. It is recommended to keep this option enabled."`
 
 	GlobalMovementCutoffThreshold int `json:"global_movement_cutoff_threshold" comment:"The maximum amount of latency deviation in ticks Oomph will allow for before applying certain updates instantly without lag compensation.\nSet to -1 to disable."`

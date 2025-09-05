@@ -59,6 +59,9 @@ var (
 		},
 
 		Network: NetworkOpts{
+			AttemptFixChunks:     false,
+			UpgradeChunksToBlobs: false,
+
 			GlobalMovementCutoffThreshold: -1,
 			MaxACKTimeout:                 60,
 			MaxEntityRewind:               6,
