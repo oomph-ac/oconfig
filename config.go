@@ -63,10 +63,11 @@ var (
 			UpgradeChunksToBlobs: false,
 
 			GlobalMovementCutoffThreshold: -1,
+			MaxGhostBlockChain:            -1,
 			MaxACKTimeout:                 60,
 			MaxEntityRewind:               6,
 			MaxKnockbackDelay:             10,
-			MaxBlockUpdateDelay:           10,
+			MaxBlockUpdateDelay:           -1,
 		},
 
 		Movement: MovementOpts{
