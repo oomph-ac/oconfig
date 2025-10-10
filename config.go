@@ -1,7 +1,7 @@
 package oconfig
 
 const (
-	ConfigVersion          uint64 = 3
+	ConfigVersion          uint64 = 4
 	DefaultShutdownMessage        = "§cServer is restarting."
 )
 
@@ -146,6 +146,16 @@ var (
 			"EditionFaker_C": {
 				MaxVl:      1.0,
 				FlagMsg:    "{prefix} §e{player} §6attempted to spoof their device information",
+				Punishment: PunishmentTypeBan,
+			},
+			"Proxy_A": {
+				MaxVl:      10.0,
+				FlagMsg:    "{prefix} §e{player} §6is likely using a game proxy",
+				Punishment: PunishmentTypeKick,
+			},
+			"Proxy_B": {
+				MaxVl:      1.0,
+				FlagMsg:    "{prefix} §e{player} §6is connected with a game proxy",
 				Punishment: PunishmentTypeBan,
 			},
 			"Hitbox_A": {

@@ -33,6 +33,10 @@ func ParseJSON(file string) error {
 			newCfg.Detections = DefaultConfig.Detections
 		case 2:
 			newCfg.Network = DefaultConfig.Network
+		case 3:
+			// For version 4, we added two new detections to the configuration.
+			newCfg.Detections["Proxy_A"] = DefaultConfig.Detections["Proxy_A"]
+			newCfg.Detections["Proxy_B"] = DefaultConfig.Detections["Proxy_B"]
 		}
 		newCfg.Version = ConfigVersion
 		err = WriteJSON(file, newCfg)
