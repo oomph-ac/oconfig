@@ -1,28 +1,25 @@
 package oconfig
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/hjson/hjson-go/v4"
 )
 
-// ParseJSON parses a JSON file and returns a Config struct.
-func ParseJSON(file string) error {
-	var parsedCfg Config = DefaultConfig
-	data, err := os.ReadFile(file)
-	if err != nil {
-		if err = CreateJSON(file); err != nil {
-			return err
-		}
+var (
+	ErrConfigCreated = errors.New("config file created - please fill in required fields")
+	ErrConfigUpdated = errors.New("config file updated - please fill in required fields")
+)
 
-		return fmt.Errorf("config file created - please fill in required fields")
-	}
-
-	// Decode the JSON file into a Config struct.
+// ParseRawJSON parses a raw JSON string and returns a Config struct.
+func ParseRawJSON(data []byte) (Config, error) {
+	parsedCfg := DefaultConfig
 	if err := hjson.Unmarshal(data, &parsedCfg); err != nil {
-		return fmt.Errorf("unable to parse config file: %v", err)
+		return Config{}, fmt.Errorf("unable to parse config: %w", err)
 	}
+
 	if parsedCfg.Version != ConfigVersion {
 		newCfg := parsedCfg
 		switch parsedCfg.Version {
@@ -39,13 +36,37 @@ func ParseJSON(file string) error {
 			newCfg.Detections["Proxy_B"] = DefaultConfig.Detections["Proxy_B"]
 		}
 		newCfg.Version = ConfigVersion
-		err = WriteJSON(file, newCfg)
-		if err != nil {
-			return fmt.Errorf("unable to update config file: %v", err)
+		return newCfg, ErrConfigUpdated
+	}
+
+	return parsedCfg, nil
+}
+
+// ParseJSON parses a JSON file and returns a Config struct.
+func ParseJSON(file string) error {
+	data, err := os.ReadFile(file)
+	if err != nil {
+		if err = CreateJSON(file); err != nil {
+			return err
 		}
-		return fmt.Errorf("config file updated - please fill in required fields")
-	} else if err = WriteJSON(file, parsedCfg); err != nil {
-		return fmt.Errorf("unable to re-write config file: %v", err)
+
+		return ErrConfigCreated
+	}
+
+	parsedCfg, err := ParseRawJSON(data)
+	if err != nil && !errors.Is(err, ErrConfigUpdated) {
+		return fmt.Errorf("unable to parse config file: %w", err)
+	}
+
+	if errors.Is(err, ErrConfigUpdated) {
+		if writeErr := WriteJSON(file, parsedCfg); writeErr != nil {
+			return fmt.Errorf("unable to update config file: %w", writeErr)
+		}
+		return ErrConfigUpdated
+	}
+
+	if writeErr := WriteJSON(file, parsedCfg); writeErr != nil {
+		return fmt.Errorf("unable to re-write config file: %w", writeErr)
 	}
 
 	Global = parsedCfg
