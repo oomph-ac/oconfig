@@ -212,6 +212,10 @@ var (
 				FlagMsg:    "{prefix} §e{player} §6is aiming suspiciously §7[§cx{violations}§7]",
 				Punishment: PunishmentTypeBan,
 			},
+			"Cloud_Proxy": {
+				FlagMsg:    "{prefix} §e{player} §6is using a game proxy §7[§cx{violations}§7]",
+				Punishment: PunishmentTypeBan,
+			},
 		},
 	}
 )
